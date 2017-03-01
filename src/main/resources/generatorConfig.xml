@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<!--
+   Copyright© 2003-2016 浙江汇信科技有限公司, All Rights Reserved.
+  -->
+<generatorConfiguration>
+    <context id="MysqlTables" targetRuntime="MyBatis3Simple" defaultModelType="flat">
+        <!-- 模块包名 -->
+        <property name="modulePackage" value="com.icinfo.lpsp.notebook.note"/>
+        <!-- 生成项目 -->
+        <property name="targetProject" value="src/main/java"/>
+
+        <!-- 生成Model序列化接口 -->
+        <plugin type="com.icinfo.framework.generator.plugins.SerializablePlugin"/>
+        <!-- 生成DTO类 -->
+        <plugin type="com.icinfo.framework.generator.plugins.DtoPlugin"/>
+        <!-- 生成Service接口及实现类 -->
+        <plugin type="com.icinfo.framework.generator.plugins.ServicePlugin"/>
+        <!-- 生成Controller类 -->
+        <plugin type="com.icinfo.framework.generator.plugins.ControllerPlugin"/>
+        <!-- 生成Mapper接口及SqlMap文件 -->
+        <plugin type="com.icinfo.framework.generator.plugins.MapperPlugin">
+            <property name="mappers" value="com.icinfo.framework.mybatis.mapper.common.Mapper"/>
+            <!-- caseSensitive默认false，当数据库表名区分大小写时，可以将该属性设置为true -->
+            <property name="caseSensitive" value="true"/>
+        </plugin>
+
+
+        <!--数据库连接 -->
+        <!--<jdbcConnection driverClass="com.mysql.jdbc.Driver"-->
+                        <!--connectionURL="jdbc:mysql://192.168.1.254:3306/test" userId="lpsp_linksgood"-->
+                        <!--password="linksgood254">-->
+        <!--</jdbcConnection>-->
+
+        <jdbcConnection driverClass="com.mysql.jdbc.Driver"
+                        connectionURL="jdbc:mysql://192.168.1.254:3306/lpsp_info" userId="lpsp"
+                        password="lpsp2016HX">
+        </jdbcConnection>
+
+        <javaTypeResolver>
+            <property name="forceBigDecimals" value="false"/>
+        </javaTypeResolver>
+
+        <javaModelGenerator targetPackage="${modulePackage}.model" targetProject="${targetProject}"/>
+
+        <sqlMapGenerator targetPackage="${modulePackage}.mapper.mapping" targetProject="${targetProject}"/>
+
+        <javaClientGenerator type="XMLMAPPER" targetPackage="${modulePackage}.mapper" targetProject="${targetProject}"/>
+
+        <table tableName="NBOOK_MEETING_BOOK" domainObjectName="MeetingBook" schema="test">
+            <generatedKey column="id" sqlStatement="select replace(uuid(), '-', '')" type="pre"/>
+            <columnRenamingRule searchString="^NMB_" replaceString=""/>
+        </table>
+
+    </context>
+</generatorConfiguration>

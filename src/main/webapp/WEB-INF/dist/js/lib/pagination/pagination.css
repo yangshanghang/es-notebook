@@ -1,0 +1,112 @@
+@charset "utf-8";
+.notice-pagination-box {
+    text-align: right;
+    padding-top: 20px;
+}
+
+.notice-pagination-box .pagination {
+    display: inline-block;
+    margin-right: 0;
+}
+
+.notice-pagination-box .pagination a, .notice-pagination-box .pagination span {
+    padding: 6px 9px;
+}
+
+.pagination-box {
+    padding: 24px 0;
+}
+
+.pagination {
+    text-align: center;
+}
+.notice-pagination-box em{
+    font-style: normal;
+}
+
+.pagination a {
+    text-decoration: none;
+    border: 1px solid #AAE;
+    color: #15B;
+}
+
+.pagination a, .pagination span {
+    display: inline-block;
+    padding: 6px 12px;
+    margin: 0 2px;
+    border: 1px solid #ddd;
+    line-height: 1.42857143;
+    color: #0066cb;
+    font-size: 12px;
+}
+
+.pagination .current {
+    background: #347ab8;
+    color: #fff;
+    border: 1px solid #347ab8;
+    z-index: 999;
+}
+
+.pagination .current.prev, .pagination .current.next {
+    color: #333;
+    border-color: #ddd;
+    background: #fff;
+    padding: 6px 12px;
+
+}
+
+
+.pagination a:hover {
+    color: #fff;
+    background-color: #347ab8;
+    border: 1px solid #347ab8;
+}
+
+.current.prev, .current.next {
+    cursor: not-allowed;
+}
+
+.pagination .icon-triangle-left,
+.pagination .current.prev:hover .icon-triangle-left {
+    display: inline-block;
+    margin-right: 3px;
+    width: 0;
+    height: 0;
+    border-top: 5px solid transparent;
+    border-right: 5px solid #0066cb;
+    border-bottom: 5px solid transparent;
+}
+
+.pagination .icon-triangle-right,
+.pagination .current.next:hover .icon-triangle-right {
+    display: inline-block;
+    margin-left: 3px;
+    width: 0;
+    height: 0;
+    border-top: 5px solid transparent;
+    border-left: 5px solid #0066cb;
+    border-bottom: 5px solid transparent;
+}
+
+.pagination a:hover .icon-triangle-left {
+    border-top: 5px solid transparent;
+    border-right: 5px solid #fff;
+    border-bottom: 5px solid transparent;
+}
+
+.pagination a:hover .icon-triangle-right {
+    border-top: 5px solid transparent;
+    border-left: 5px solid #fff;
+    border-bottom: 5px solid transparent;
+}
+
+.pagination .prev,
+.pagination .prev + a,
+.pagination .next {
+    border-left: 1px solid #ddd;
+    margin-left: 2px;
+    margin-right: 2px;
+}
+
+
+

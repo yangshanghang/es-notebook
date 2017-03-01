@@ -1,0 +1,192 @@
+.mynote-scss {
+  .mod {
+    width: auto;
+    margin: auto;
+  }
+  .top-menu {
+    .menu-list {
+      padding-left: 30px;
+    }
+    .login-list {
+      margin-right: 20px;
+    }
+  }
+  .login-after {
+    padding-right: 120px;
+  }
+  .top-menu {
+    width: calc(100% - (220px));
+  }
+}
+
+.add-column {
+  padding: 8px 0;
+  border-bottom: 1px dashed #e5e5e5 !important;
+  .columns-add {
+    b {
+      display: inline-block;
+      color: #fff;
+      background-color: #ff6600;
+      font-size: 40px;
+      line-height: 33px;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      text-align: center;
+      vertical-align: middle;
+      margin-right: 10px;
+    }
+    color: #666;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: normal;
+  }
+  span {
+    font: normal 12px/40px 'Microsoft YaHei';
+    color: #ccc;
+    float: right;
+  }
+}
+
+.column-note-list {
+  li {
+    color: #333;
+    padding: 5px;
+    border-bottom: 1px dashed #E4E2E2;
+    b.del {
+      width: 22px;
+      height: 22px;
+      line-height: 18px;
+      background-color: #E97273;
+      color: #fff;
+      font-size: 20px;
+      display: inline-block;
+      text-align: center;
+      border-radius: 50%;
+      cursor: pointer;
+      margin-right: 15px;
+      vertical-align: middle;
+    }
+  }
+
+}
+
+.column-edit-tb {
+  border-collapse: collapse;
+  th, td {
+    text-align: left;
+    border: 1px solid #CCC;
+    color: #333;
+    position: relative;
+  }
+  th {
+    padding: 5px 8px;
+    font: normal 16px/30px 'Microsoft YaHei';
+    height: 30px;
+
+    div {
+      width: 50%;
+      float: left;
+    }
+    .tiny-tip {
+      font-size: 14px;
+      color: #999;
+      margin-left: 10px;
+    }
+  }
+  td {
+    vertical-align: top;
+    cursor: move;
+    font: normal 14px/16px 'Microsoft YaHei';
+    ul {
+      width: 50%;
+      box-sizing: border-box;
+      float: left;
+      height: 240px;
+      overflow-y: auto;
+    }
+    li {
+      font: normal 14px/16px 'Microsoft YaHei';
+      padding: 7px 8px;
+      height: 30px;
+      box-sizing: border-box;
+      color: #646464;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      i {
+        color: #fff;
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        border-radius: 50%;
+        vertical-align: middle;
+        text-align: center;
+        font-size: 16px;
+        line-height: 14px;
+        font-weight: bolder;
+        margin-right: 8px;
+        cursor: pointer;
+      }
+      i.minus-icon {
+        background-color: #e85354;
+      }
+      i.add-icon {
+        background-color: #5faB62;
+      }
+    }
+  }
+  .center-line {
+    border-left: 1px solid #ccc;
+    height: 100%;
+    position: absolute;
+    left: 50%;
+    top: 0;
+    margin-left: -1px;
+    box-sizing: border-box;
+  }
+  .search-btn {
+    height: 30px;
+    input[type='text'] {
+      border: 1px solid #ccc;
+      border-right: transparent;
+      height: 30px;
+      font-size: 14px;
+      text-indent: 4px;
+      width: 72%;
+      box-sizing: border-box;
+      float: left;
+      border-radius: 4px 0 0 4px;
+      margin-left: 8px;
+    }
+    .look-btn {
+      box-sizing: border-box;
+      float: left;
+      width: 22%;
+      height: 30px;
+      color: #fff;
+      background-color: #ff6600;
+      border: 0;
+      font: normal 14px/30px 'Microsoft YaHei';
+      border-radius: 0 4px 4px 0;
+      cursor: pointer;
+    }
+  }
+  .search-result {
+    width: calc(50% - (1px));
+    .alldialog {
+      height: 100%;
+      background-color: rgba(255, 255, 247, 0.3);
+      &:after {
+        display: inline-block;
+        height: 100%;
+        content: '';
+        vertical-align: middle;
+      }
+    }
+  }
+  .note-selected b.es-highlight {
+    color: #646464;
+    font-weight: normal;
+  }
+}

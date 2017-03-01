@@ -1,0 +1,24 @@
+.favorite-box {
+  .favorite-list {
+    margin: 0 30px;
+    padding: 10px 0;
+    li {
+      background: #eee;
+      width: 96px;
+      text-align: center;
+      padding: 10px 0;
+      float: left;
+      margin-right: 10px;
+      margin-bottom: 10px;
+      cursor: move;
+      & > p {
+        font-size: 14px;
+        color: #666;
+        line-height: 18px;
+      }
+      & > span {
+        color: #999;
+      }
+    }
+  }
+}

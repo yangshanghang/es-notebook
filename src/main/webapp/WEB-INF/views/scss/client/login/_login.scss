@@ -1,0 +1,138 @@
+.form-box {
+  position: relative;
+  .tip {
+    width: 360px;
+    text-align: center;
+  }
+  margin-top: 180px;
+  padding-left: 320px;
+  height: 621px;
+  &.pdl0 {
+    padding-left: 0;
+  }
+  li {
+    margin-top: 10px;
+  }
+  .ipt {
+    border: 1px solid #bfbfbf;
+    border-radius: 5px;
+    width: 360px;
+    height: 46px;
+    line-height: 46px;
+    color: #333;
+    text-indent: 12px;
+    &:focus {
+      border-color: #3399ff;
+    }
+    &.error {
+      border-color: #cc0000;
+    }
+  }
+
+  .btn {
+    margin-top: 10px;
+    border: 0;
+    cursor: pointer;
+    border-radius: 5px;
+    height: 48px;
+    line-height: 48px;
+    width: 360px;
+    text-align: center;
+    font-size: 18px;
+    color: #fff;
+    &.mt20 {
+      margin-top: 20px;
+    }
+    &.btn2 {
+      display: inline-block;
+      width: 130px;
+      height: 34px;
+      line-height: 34px;
+      margin-top: 30px;
+    }
+  }
+
+  .login-title {
+    font: normal 24px/32px 'Microsoft YaHei';
+    padding-bottom: 8px;
+    text-align: center;
+    width: 360px;
+    i.icons {
+      display: inline-block;
+      width: 32px;
+      height: 32px;
+    }
+  }
+}
+
+.register-mod {
+  .login-title {
+    .icons {
+      background-position: -1px -1px;
+      vertical-align: -7px;
+    }
+  }
+}
+
+.login-mod {
+  .login-title {
+    .icons {
+      background-position: -1px -46px;
+      vertical-align: -7px;
+    }
+  }
+  .forget-pw {
+    a {
+      display: inline-block;
+      width: 360px;
+      color: #039be5;
+      font: normal 14px/14px 'Microsoft YaHei';
+      text-align: right;
+    }
+  }
+  .third-login {
+    width: 360px;
+    margin-top: 64px;
+    h5 {
+      font: normal 14px/16px 'Microsoft YaHei';
+      text-align: center;
+      position: relative;
+      &:before {
+        content: ' ';
+        position: absolute;
+        border-bottom: 1px solid #ccc;
+        width: 130px;
+        left: 0px;
+        top: 7px;
+      }
+      &:after {
+        content: ' ';
+        position: absolute;
+        border-bottom: 1px solid #ccc;
+        width: 130px;
+        right: 0px;
+        top: 7px;
+      }
+    }
+    p {
+      margin-top: 20px;
+      background-position: 60px -320px;
+      padding-left: 13px;
+      a {
+        display: inline-block;
+        width: 50px;
+        height: 30px;
+        margin: 0 30px;
+      }
+    }
+  }
+}
+
+.findpwd-mod {
+  .login-title {
+    .icons {
+      background-position: -1px -85px;
+      vertical-align: -7px;
+    }
+  }
+}

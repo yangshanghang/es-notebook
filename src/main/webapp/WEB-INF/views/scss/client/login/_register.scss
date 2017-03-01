@@ -1,0 +1,42 @@
+.register-mod {
+  .mail-btn {
+    display: block;
+    font-size: 14px;
+    width: 108px;
+    height: 34px;
+    line-height: 34px;
+    text-align: center;
+    color: #fff;
+    border-radius: 3px;
+    background: #44b548;
+  }
+  .mail-icon {
+    width: 64px;
+    height: 64px;
+    background: gainsboro;
+    border-radius: 50%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    background: url(/img/mail-icon.png) no-repeat;
+  }
+  .form-box.pdl80 {
+    padding-left: 80px;
+  }
+  .success-txt {
+    padding-top: 10px;
+    padding-bottom: 28px;
+    font-size: 16px;
+    line-height: 22px;
+  }
+  .gray {
+    font-size: 14px;
+    color: #a09fa0;
+    line-height: 22px;
+  }
+  .w-700 {
+    width: 700px;
+    margin: 210px auto 0;
+    box-sizing: border-box;
+  }
+}

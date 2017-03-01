@@ -1,0 +1,301 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-size: 14px;
+  font-family: 'Microsoft YaHei' !important;
+  color: #333;
+  //background: #f5f5f5;
+  background: #eee;
+}
+
+input {
+  border: 0;
+}
+
+div, h1, h2, h3, h4, h5, h6, p, ul, li, dl, dd, input, em, strong, span, a, label, form {
+  margin: 0;
+  padding: 0;
+}
+
+em, i, strong {
+  font-style: normal;
+  font-weight: normal;
+}
+
+img {
+  border: none 0;
+}
+
+a,
+a:hover {
+  text-decoration: none !important;
+}
+
+a:active {
+  background: none;
+}
+
+li {
+  list-style: none;
+}
+
+*:focus {
+  outline: none
+}
+
+.fl {
+  float: left;
+}
+
+.fr {
+  float: right;
+}
+
+.clear:after {
+  clear: both;
+  content: ' ';
+  display: block;
+}
+
+.clear {
+  zoom: 1;
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.mt10 {
+  margin-top: 10px;
+}
+
+.mt20 {
+  margin-top: 20px;
+}
+
+.ml0 {
+  margin-left: 0 !important;
+}
+
+.mrb5 {
+  margin-bottom: 5px;
+}
+
+.mrt15 {
+  margin-top: 15px;
+}
+
+.mr5 {
+  margin-right: 5px;
+}
+
+.mr10 {
+  margin-right: 10px;
+}
+
+.mr20 {
+  margin-right: 20px;
+}
+
+.mr30 {
+  margin-right: 30px;
+}
+
+.mrt20 {
+  padding-top: 20px;
+}
+
+.mrt25 {
+  margin-top: 25px;
+}
+
+.mb40 {
+  margin-bottom: 40px;
+}
+
+.mt20r20m0l20 {
+  margin: 20px 20px 0 20px;
+}
+
+.pdt7 {
+  padding-top: 7px;
+}
+
+.pdl20 {
+  padding-left: 20px;
+}
+
+.pdl40 {
+  padding-left: 40px;
+}
+
+.pdr20 {
+  padding-right: 20px;
+}
+
+.pdt60 {
+  padding-top: 60px;
+}
+
+.pdt120 {
+  padding-top: 120px;
+}
+
+.pdt30 {
+  padding-top: 30px;
+}
+
+.pdb50 {
+  padding-bottom: 50px;
+}
+
+.pdl112 {
+  padding-left: 112px;
+}
+
+.pos_rel {
+  position: relative;
+}
+
+.pdtb01 {
+  padding: 62px 0 23px 0;
+}
+
+.pdtb02 {
+  padding: 60px 0 4px 0;
+}
+
+.pdtb03 {
+  padding: 60px 0 49px 0;
+}
+
+.pd20{
+  padding: 20px;
+}
+
+.pd30 {
+  padding: 30px;
+}
+
+.pt119 {
+  margin-top: 88px;
+}
+
+.mr-5 {
+  margin-right: -5px;
+}
+
+.left {
+  text-align: left !important;
+}
+
+.none {
+  display: none;
+}
+
+.center {
+  text-align: center;
+}
+
+.right {
+  text-align: right;
+}
+
+.text_right {
+  text-align: right;
+}
+
+.f0 {
+  font-size: 0;
+  line-height: 0;
+}
+
+.bgcolor01 {
+  background-color: #f6f5f5;
+}
+
+.bgcolor02 {
+  background-color: #47c6fa;
+}
+
+.bgcolor03 {
+  background-color: #333;
+}
+
+.bgcolor04 {
+  background-color: #336bb4;
+}
+
+.bgcolorwhite {
+  background-color: #fff;
+}
+
+.light {
+  color: #ff0000;
+}
+
+.clearfix:after {
+  clear: both;
+  content: '.';
+  display: block;
+  height: 0;
+  visibility: hidden;
+  line-height: 0
+}
+
+.clearfix {
+  *zoom: 1
+}
+
+.ellips {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.ellips_line3 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  -webkit-line-clamp: 3;
+}
+
+.icons {
+  background: url("/img/notebook-sprite.png") no-repeat 0 0;
+}
+
+label.error {
+  color: #cc0000;
+  padding-left: 25px;
+  background: url("/img/client/error-icon.png") no-repeat 10px 4px;
+}
+
+.min-h800 {
+  min-height: 800px;
+}
+
+.min-h500 {
+  min-height: 500px;
+}
+
+.link-blue {
+  color: #4092f7;
+}
+
+.color-gray {
+  color: #666 !important;
+}
+
+.pos-fixed {
+  position: fixed;
+}
+
+.pos-static {
+  position: static;
+}
+
+pre {
+  width: auto;
+  overflow: auto;
+  overflow-y: hidden;
+}

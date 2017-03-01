@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.icinfo.lpsp.notebook.note.mapper.MyFavoriteMapper" >
+  <resultMap id="BaseResultMap" type="com.icinfo.lpsp.notebook.note.model.MyFavorite" >
+    <!--
+      WARNING - @frameworkgenerated
+    -->
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="NMF_USER_ID" property="userId" jdbcType="VARCHAR" />
+    <result column="NMF_NOTE_ID" property="noteId" jdbcType="VARCHAR" />
+    <result column="NMF_CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="NMF_OPERATE_TIME" property="operateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+</mapper>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   Copyright© 2003-2016 浙江汇信科技有限公司, All Rights Reserved.
+  -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!--
+    使用说明：
+    1、POM文件添加依赖
+        <dependency>
+            <groupId>com.icinfo</groupId>
+            <artifactId>framework-security</artifactId>
+        </dependency>
+	2、导入依赖配置文件spring-shiro-lianlian.xml
+	3、web.xml添加过滤器
+	<filter>
+		<filter-name>shiroFilter</filter-name>
+		<filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+		<init-param>
+			<param-name>targetFilterLifecycle</param-name>
+			<param-value>true</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>shiroFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping>
+    -->
+    <bean id="lianlianRealm" class="com.icinfo.framework.sso.shiro.CasRealm">
+        <property name="casServerUrlPrefix" value="${spring.shiro.sso.casServerPrefixUrl}"/>
+        <property name="casService" value="${spring.shiro.sso.casService}"/>
+    </bean>
+
+    <!-- 安全管理器 -->
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <property name="sessionManager" ref="defaultWebSessionManager"/>
+        <property name="realm" ref="lianlianRealm"/>
+        <property name="subjectFactory">
+            <bean class="com.icinfo.framework.sso.shiro.CasSubjectFactory"/>
+        </property>
+    </bean>
+
+    <!-- 会话验证调度器 -->
+    <bean id="sessionValidationScheduler" class="org.apache.shiro.session.mgt.quartz.QuartzSessionValidationScheduler">
+        <property name="sessionValidationInterval" value="1800000"/>
+        <property name="sessionManager" ref="defaultWebSessionManager"/>
+    </bean>
+
+    <bean id="defaultWebSessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+        <property name="globalSessionTimeout" value="1800000"/>
+        <property name="deleteInvalidSessions" value="true"/>
+        <property name="sessionValidationSchedulerEnabled" value="true"/>
+        <property name="sessionValidationScheduler" ref="sessionValidationScheduler"/>
+        <property name="sessionIdCookie.name" value="_ll_cid"/>
+    </bean>
+
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <property name="securityManager" ref="securityManager"/>
+        <property name="loginUrl" value="${spring.shiro.sso.loginUrl}"/>
+        <property name="successUrl" value="/success.html"/>
+        <property name="filters">
+            <map>
+                <entry key="cas">
+                    <bean class="com.icinfo.framework.sso.shiro.CasFilter">
+                        <property name="failureUrl" value="${spring.shiro.sso.failureUrl}"/>
+                    </bean>
+                </entry>
+            </map>
+        </property>
+        <property name="filterChainDefinitions">
+            <value>
+                /casFailure.jsp = anon
+                /ssologin = cas
+                /success.html = user
+                /logout = logout
+                /** = anon
+            </value>
+        </property>
+    </bean>
+</beans>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.icinfo.lpsp.notebook.note.mapper.NoteMapper">
+    <resultMap id="BaseResultMap" type="com.icinfo.lpsp.notebook.note.model.Note">
+        <!--
+          WARNING - @frameworkgenerated
+        -->
+        <id column="ID" jdbcType="VARCHAR" property="id" />
+        <result column="NN_TITLE" jdbcType="VARCHAR" property="title" />
+        <result column="NN_SUMMARY" jdbcType="VARCHAR" property="summary" />
+        <result column="NN_SCALE_IMG_URL" jdbcType="VARCHAR" property="scaleImgUrl" />
+        <result column="NN_TYPE_ID" jdbcType="VARCHAR" property="typeId" />
+        <result column="NN_ATTACHMENT_FLAG" jdbcType="CHAR" property="attachmentFlag" />
+        <result column="NN_AUTHOR" jdbcType="VARCHAR" property="author" />
+        <result column="NN_USER_ID" jdbcType="VARCHAR" property="userId" />
+        <result column="NN_OPERATOR" jdbcType="VARCHAR" property="operator" />
+        <result column="NN_PRAISE_COUNT" jdbcType="INTEGER" property="praiseCount" />
+        <result column="NN_VISIBLE_STATUS" jdbcType="CHAR" property="visibleStatus" />
+        <result column="NN_CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+        <result column="NN_OPERATE_TIME" jdbcType="TIMESTAMP" property="operateTime" />
+        <result column="NN_CONTENT" jdbcType="LONGVARCHAR" property="content" />
+    </resultMap>
+
+    <!--笔记DtoResultMap-->
+    <resultMap extends="com.icinfo.lpsp.notebook.note.mapper.NoteMapper.BaseResultMap" id="NoteDtoResultMap" type="com.icinfo.lpsp.notebook.note.dto.NoteDto">
+        <result column="commentCount" jdbcType="INTEGER" property="commentCount" />
+        <result column="NC_NAME" jdbcType="VARCHAR" property="categoryName" />
+    </resultMap>
+
+    <!--获取我的收藏笔记列表-->
+    <select id="getMyFavoriteNoteList" parameterType="java.util.Map" resultMap="NoteDtoResultMap">
+        SELECT
+        n.ID ID,NN_TITLE,NN_SUMMARY,NN_SCALE_IMG_URL,NN_TYPE_ID,NN_ATTACHMENT_FLAG,NN_AUTHOR,NN_OPERATOR,
+        NN_PRAISE_COUNT,NN_VISIBLE_STATUS,NN_CREATE_TIME,NN_OPERATE_TIME,NN_CONTENT,
+        COUNT(co.NC_NOTE_ID) as commentCount,
+        NC_NAME
+        FROM
+        NBOOK_MY_FAVORITE m
+        LEFT JOIN NBOOK_USER u ON m.NMF_USER_ID = u.ID
+        LEFT JOIN NBOOK_NOTE n ON m.NMF_NOTE_ID = n.ID
+        LEFT JOIN NBOOK_COMMENT co ON n.ID = co.NC_NOTE_ID
+        LEFT JOIN NBOOK_CATEGORY ca ON ca.ID = n.NN_TYPE_ID
+        <where>
+            <if test="userId != null and userId != ''">
+                AND m.NMF_USER_ID = #{userId}
+            </if>
+            <if test="categoryId != null and categoryId != ''">
+                AND n.NN_TYPE_ID = #{categoryId}
+            </if>
+            <if test="queryParamLike !=null and queryParamLike !=''">
+                AND NN_TITLE LIKE CONCAT('%',#{queryParamLike},'%')
+            </if>
+        </where>
+        GROUP BY n.ID
+        ORDER BY m.NMF_CREATE_TIME desc
+    </select>
+
+    <!--删除笔记-->
+    <delete id="deleteNote" parameterType="java.lang.String">
+        DELETE n.*,m.*,co.*
+        FROM
+        NBOOK_NOTE n LEFT JOIN NBOOK_MY_FAVORITE m ON n.ID = m.NMF_NOTE_ID
+        LEFT JOIN NBOOK_COMMENT co ON n.ID = co.NC_NOTE_ID
+        <where>
+            AND n.ID = #{noteId}
+        </where>
+    </delete>
+</mapper>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!--
+   Copyright© 2003-2016 浙江汇信科技有限公司, All Rights Reserved.
+  -->
+<mapper namespace="com.icinfo.lpsp.notebook.system.mapper.SysUserMapper" >
+  <resultMap id="BaseResultMap" type="com.icinfo.lpsp.notebook.system.model.SysUser" >
+    <!--
+      WARNING - @mbggenerated
+    -->
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="SU_LOGIN_NAME" property="loginName" jdbcType="VARCHAR" />
+    <result column="SU_LOGIN_PASS" property="loginPass" jdbcType="VARCHAR" />
+  </resultMap>
+</mapper>

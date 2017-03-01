@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.icinfo.lpsp.notebook.note.mapper.ColumnsMapper">
+  <resultMap id="BaseResultMap" type="com.icinfo.lpsp.notebook.note.model.Columns">
+    <!--
+      WARNING - @frameworkgenerated
+    -->
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="NC_USER_ID" jdbcType="VARCHAR" property="userId" />
+    <result column="NC_CATEGORY_ID" jdbcType="VARCHAR" property="categoryId" />
+    <result column="NC_NAME" jdbcType="VARCHAR" property="name" />
+    <result column="NC_ICON_URL" jdbcType="VARCHAR" property="iconUrl" />
+    <result column="NC_INTRODUCE" jdbcType="VARCHAR" property="introduce" />
+    <result column="NC_VISIBLE_STATUS" jdbcType="CHAR" property="visibleStatus" />
+    <result column="NC_CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="NC_OPERATE_TIME" jdbcType="TIMESTAMP" property="operateTime" />
+  </resultMap>
+</mapper>

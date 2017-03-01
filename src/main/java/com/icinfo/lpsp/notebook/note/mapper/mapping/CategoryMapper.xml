@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.icinfo.lpsp.notebook.note.mapper.CategoryMapper">
+    <resultMap id="BaseResultMap" type="com.icinfo.lpsp.notebook.note.model.Category">
+        <!--
+          WARNING - @frameworkgenerated
+        -->
+        <id column="ID" property="id" jdbcType="VARCHAR"/>
+        <result column="NC_NAME" property="name" jdbcType="VARCHAR"/>
+        <result column="NC_ORDER_NUMBER" property="orderNumber" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--类目DtoResultMap-->
+    <resultMap id="CategoryDtoResultMap" type="com.icinfo.lpsp.notebook.note.dto.CategoryDto"
+               extends="com.icinfo.lpsp.notebook.note.mapper.CategoryMapper.BaseResultMap">
+    </resultMap>
+
+    <!--根据id获取用户关注类别-->
+    <select id="selectList" resultMap="CategoryDtoResultMap">
+        SELECT
+        nc.ID,
+        nc.NC_NAME,
+        m.NMF_ORDER_NUMBER
+        FROM
+        NBOOK_USER u
+        RIGHT JOIN NBOOK_MY_FOCUS m ON u.ID = m.NMF_USER_ID
+        RIGHT JOIN NBOOK_CATEGORY nc ON m.NMF_CATEGORY_ID= nc.ID
+        <where>
+            u.ID = #{id}
+        </where>
+        ORDER BY m.NMF_ORDER_NUMBER
+    </select>
+
+    <!--获取所有类别-->
+    <select id="selectAllList" resultMap="CategoryDtoResultMap">
+        SELECT
+        nc.ID,
+        nc.NC_NAME,
+        nc.NC_ORDER_NUMBER
+        FROM
+        NBOOK_CATEGORY nc
+        ORDER BY nc.NC_ORDER_NUMBER
+    </select>
+
+</mapper>

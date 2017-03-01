@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--
+   Copyright© 2003-2016 浙江汇信科技有限公司, All Rights Reserved.
+  -->
+
+<!-- 默认开启配置变动扫描 关闭logback调试模式 -->
+<configuration scan="true" scanPeriod="1800 seconds"
+	debug="false">
+	<!-- property start -->
+	<!-- 定义上下文 -->
+	<property name="contextName" value="lpsp-notebook" />
+	<!-- 定义日志根目录 -->
+	<property name="logHome" value="logs" />
+	<!-- 全量日志路径 -->
+	<property name="allLogFilePath" value="all" />
+	<!-- 全量日志文件名 -->
+	<property name="allLogFileName" value="all" />
+	<!-- 错误日志路径 -->
+	<property name="errorLogFilePath" value="error" />
+	<!-- 错误日志文件名 -->
+	<property name="errorLogFileName" value="error" />
+	<!-- sql日志路径 -->
+	<property name="sqlLogFilePath" value="sql" />
+	<!-- sql日志文件名 -->
+	<property name="sqlLogFileName" value="sql" />
+	<!-- 业务日志路径 -->
+	<property name="businessLogFilePath" value="business" />
+	<!-- 业务日志文件名 -->
+	<property name="businessLogFileName" value="business" />
+	<!-- 通用日志格式 -->
+	<property name="commonPattern" value="%d [%thread] %-5level %logger{100} - %msg%n" />
+
+	<!-- property end -->
+
+	<!-- time format start -->
+	<!-- 日期时间格式定义 -->
+	<timestamp key="month" datePattern="yyyy-MM" />
+	<timestamp key="day" datePattern="yyyy-MM-dd" />
+	<timestamp key="hour" datePattern="yyyy-MM-dd'T'HH" />
+	<timestamp key="minute" datePattern="yyyy-MM-dd'T'HH:mm" />
+	<timestamp key="second" datePattern="yyyy-MM-dd'T'HH:mm:ss" />
+	<!-- time format end -->
+
+	<!-- appender start -->
+	<!-- 控制台输出 -->
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>${commonPattern}</pattern>
+		</encoder>
+	</appender>
+
+	<!-- 滚动文件写入 -->
+	<!-- 全量日志 appender -->
+	<appender name="ALL_LOG_FILE"
+			  class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${logHome}/${contextName}/${allLogFilePath}/${month}/${allLogFileName}.log
+		</file>
+		<!-- 保留90天 -->
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>
+				${logHome}/${contextName}/${allLogFilePath}/${month}/${allLogFileName}_%d{yyyy-MM-dd}.log
+			</fileNamePattern>
+			<maxHistory>90</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<pattern>${commonPattern}</pattern>
+		</encoder>
+	</appender>
+
+	<!-- 错误日志 appender -->
+	<appender name="ERROR_LOG_FILE"
+			  class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${logHome}/${contextName}/${errorLogFilePath}/${errorLogFileName}.log</file>
+		<!-- 只记录error级别日志 -->
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>ERROR</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+		<!-- 保留30天 -->
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>
+				${logHome}/${contextName}/${errorLogFilePath}/${errorLogFileName}_%d{yyyy-MM-dd}.log
+			</fileNamePattern>
+			<maxHistory>30</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<pattern>${commonPattern}</pattern>
+		</encoder>
+	</appender>
+
+	<!-- sql日志 appender -->
+	<appender name="SQL_LOG_FILE"
+			  class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${logHome}/${contextName}/${sqlLogFilePath}/${sqlLogFileName}.log</file>
+		<!-- 10个100MB文件滚动存储 -->
+		<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+			<fileNamePattern>
+				${logHome}/${contextName}/${sqlLogFilePath}/${sqlLogFileName}_%i.log.zip
+			</fileNamePattern>
+			<minIndex>1</minIndex>
+			<maxIndex>10</maxIndex>
+		</rollingPolicy>
+		<triggeringPolicy
+				class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+			<maxFileSize>100MB</maxFileSize>
+		</triggeringPolicy>
+		<encoder>
+			<pattern>${commonPattern}</pattern>
+		</encoder>
+	</appender>
+
+	<!-- 业务日志 appender -->
+	<appender name="BUSINESS_LOG_FILE"
+			  class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${logHome}/${contextName}/${businessLogFilePath}/${month}/${businessLogFileName}.log
+		</file>
+		<!-- 只记录info级别及以上日志 -->
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>INFO</level>
+		</filter>
+		<!-- 保留60天 -->
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>
+				${logHome}/${contextName}/${businessLogFilePath}/${month}/${businessLogFileName}_%d{yyyy-MM-dd}.log
+			</fileNamePattern>
+			<maxHistory>60</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<pattern>${commonPattern}</pattern>
+		</encoder>
+	</appender>
+	<!-- appender end -->
+
+	<!-- logger start -->
+	<!-- sql日志logger -->
+	
+	<!-- 关闭jdbc下resultSet等输出 -->
+	<logger name="jdbc" level="off" additivity="false"/>
+	
+	<!-- 开发阶段加入sqltiming，控制台观察sql语句执行时间，生产环境去掉 -->
+	<!-- 开启jdbc下timing输出 -->
+	<logger name="jdbc.sqltiming" level="debug" additivity="false">
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="SQL_LOG_FILE" />
+	</logger>
+
+	<!-- 业务日志logger -->
+	<logger name="com.icinfo" level="info" additivity="true">
+		<appender-ref ref="BUSINESS_LOG_FILE" />
+	</logger>
+	<!-- logger end -->
+
+	<!-- 根logger -->
+	<root level="info">
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="ALL_LOG_FILE" />
+		<appender-ref ref="ERROR_LOG_FILE" />
+	</root>
+
+</configuration>
+

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   Copyright© 2003-2016 浙江汇信科技有限公司, All Rights Reserved.
+  -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
+		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.2.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd"
+	default-lazy-init="true">
+
+	<description>Spring公共配置</description>
+
+	<!-- 使用annotation 自动注册bean,并检查@Required,@Autowired的属性已被注入 -->
+	<context:component-scan base-package="com.icinfo">
+		<context:exclude-filter type="annotation"
+			expression="org.springframework.stereotype.Controller" />
+		<context:exclude-filter type="annotation"
+			expression="org.springframework.web.bind.annotation.ControllerAdvice" />
+	</context:component-scan>
+
+	<!-- 通用session工厂配置 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<!-- 使用通用数据源 -->
+		<property name="dataSource" ref="dataSource" />
+		<property name="typeAliasesPackage" value="com.icinfo.lpsp.notebook.*.model" />
+		<property name="mapperLocations">
+			<list>
+				<value>
+					classpath*:**/mapper/mapping/*Mapper.xml
+				</value>
+			</list>
+		</property>
+		<property name="plugins">
+			<array>
+				<bean class="com.icinfo.framework.mybatis.pagehelper.PageHelper">
+					<property name="properties">
+						<value>
+							dialect=mysql
+							reasonable=true
+						</value>
+					</property>
+				</bean>
+				<bean class="com.icinfo.framework.mybatis.interceptor.PerformanceInterceptor"/>
+			</array>
+		</property>
+	</bean>
+	
+	<!-- 通用session模板， 供service层使用 -->
+	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate"
+		scope="prototype">
+		<constructor-arg index="0" ref="sqlSessionFactory" />
+	</bean>
+	
+	<!-- 通用接口包扫描 -->
+	<bean class="com.icinfo.framework.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.icinfo.lpsp.notebook.*.mapper" />
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+	</bean>
+	
+	<!-- 通用事务管理器 -->
+	<bean id="transactionManager"
+		class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource" />
+	</bean>
+	
+	<!-- 使用annotation定义事务 -->
+	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true" />
+
+	<!-- 默认数据源 -->
+	<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+		<property name="driverClassName" value="${spring.jdbc.driverClass}"/>
+		<property name="url" value="${spring.jdbc.jdbcUrl}"/>
+		<property name="username" value="${spring.jdbc.user}"/>
+		<property name="password" value="${spring.jdbc.password}"/>
+
+		<property name="filters" value="stat"/>
+
+		<property name="maxActive" value="${spring.jdbc.maxPoolSize}"/>
+		<property name="initialSize" value="${spring.jdbc.minPoolSize}"/>
+		<property name="maxWait" value="6000"/>
+		<property name="minIdle" value="${spring.jdbc.minIdleSize}"/>
+	
+	     <property name="timeBetweenEvictionRunsMillis" value="60000"/>
+	     <property name="minEvictableIdleTimeMillis" value="300000"/>
+	
+	     <property name="validationQuery" value="SELECT 'x'"/>
+	     <property name="testWhileIdle" value="true"/>
+	     <property name="testOnBorrow" value="false"/>
+	     <property name="testOnReturn" value="false"/>
+	
+	     <property name="poolPreparedStatements" value="true"/>
+	     <property name="maxOpenPreparedStatements" value="20"/>
+
+		<!--用于排查连接泄漏 排查问题是启用-->
+		<!--<property name="removeAbandoned" value="true"/>-->
+		<!--<property name="removeAbandonedTimeout" value="1800" />-->
+		<!--<property name="logAbandoned" value="true" />-->
+	</bean>
+	
+	<!-- 默认初始化数据库 -->
+	<jdbc:initialize-database data-source="dataSource" ignore-failures="ALL" enabled="false">  
+            <jdbc:script location="classpath:sql/schema.sql" encoding="UTF-8"/>  
+            <jdbc:script location="classpath:sql/data.sql" encoding="UTF-8" />  
+    </jdbc:initialize-database>
+
+	<!--<import resource="classpath*:unused-spring-configuration/spring-shiro-lianlian.xml"/>-->
+</beans>

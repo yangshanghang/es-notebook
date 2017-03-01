@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   Copyright© 2003-2016 浙江汇信科技有限公司, All Rights Reserved.
+  -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/mvc
+       http://www.springframework.org/schema/mvc/spring-mvc.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+    <!-- 加载属性文件 -->
+    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:entry/dev/spring.properties</value>
+            </list>
+        </property>
+    </bean>
+
+    <!-- 开启controller注解支持 -->
+    <context:component-scan base-package="com.icinfo.lpsp.notebook.*.controller"
+                            use-default-filters="false">
+        <context:include-filter type="annotation"
+                                expression="org.springframework.stereotype.Controller"/>
+        <context:include-filter type="annotation"
+                                expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
+    </context:component-scan>
+
+    <!-- 当在web.xml 中 DispatcherServlet使用 <url-pattern>/</url-pattern> 映射时，能映射静态资源 -->
+    <mvc:default-servlet-handler/>
+
+    <!-- 首页视图定制 -->
+    <mvc:view-controller path="/" view-name="redirect:/client/index"/>
+    <mvc:view-controller path="/columnsList" view-name="person/note/columnsList"/>
+    <mvc:view-controller path="/columnAddAndEdit" view-name="person/note/columnAddAndEdit"/>
+    <mvc:view-controller path="/columnsDetail" view-name="client/note/columnsDetail"/>
+    <mvc:view-controller path="/columnsListc" view-name="client/note/columnsList"/>
+    <mvc:view-controller path="/columnNoteList" view-name="client/note/columnNoteList"/>
+    <mvc:view-controller path="/meetingBook" view-name="client/note/meetingBook"/>
+
+    <!-- 静态资源映射  css、images、js缓存15天 plugins缓存30天 -->
+    <!--<mvc:resources mapping="/css/**" location="/WEB-INF/${webDir}/css/" cache-period="1296000"/>-->
+    <!--<mvc:resources mapping="/font/**" location="/WEB-INF/${webDir}/font/" cache-period="1296000"/>-->
+    <!--<mvc:resources mapping="/js/lib/**" location="/WEB-INF/${webDir}/js/lib/" cache-period="2592000"/>-->
+    <!--<mvc:resources mapping="/js/**" location="/WEB-INF/${webDir}/js/" cache-period="1296000"/>-->
+    <!--<mvc:resources mapping="/img/**" location="/WEB-INF/${webDir}/img/" cache-period="1296000"/>-->
+    <!--<mvc:resources mapping="/**/*.html" location="/WEB-INF/${webDir}/page/" cache-period="1296000"/>-->
+
+    <mvc:resources mapping="/css/**" location="/WEB-INF/${webDir}/css/" cache-period="0"/>
+    <mvc:resources mapping="/font/**" location="/WEB-INF/${webDir}/font/" cache-period="0"/>
+    <mvc:resources mapping="/js/lib/**" location="/WEB-INF/${webDir}/js/lib/" cache-period="0"/>
+    <mvc:resources mapping="/js/**" location="/WEB-INF/${webDir}/js/" cache-period="0"/>
+    <mvc:resources mapping="/img/**" location="/WEB-INF/${webDir}/img/" cache-period="0"/>
+    <mvc:resources mapping="/**/*.html" location="/WEB-INF/${webDir}/page/" cache-period="0"/>
+
+    <!-- 通用拦截器配置 -->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <bean class="com.icinfo.framework.core.web.interceptor.GenericInterceptor"/>
+        </mvc:interceptor>
+
+        <mvc:interceptor>
+            <mvc:mapping path="/person/**"/>
+            <mvc:exclude-mapping path="/person/myfavorite/isFavorite"/>
+            <mvc:exclude-mapping path="/person/comment/**"/>
+            <bean class="com.icinfo.lpsp.notebook.common.interceptor.UserAuthorityInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
+
+    <!-- jasckson2对象映射-->
+    <bean id="objectMapper" class="com.fasterxml.jackson.databind.ObjectMapper">
+        <property name="serializationInclusion">
+            <value type="com.fasterxml.jackson.annotation.JsonInclude.Include">ALWAYS</value>
+        </property>
+    </bean>
+
+    <!-- 配置消息转换服务 -->
+    <mvc:annotation-driven>
+        <mvc:message-converters>
+            <!-- JSON消息格式器 -->
+            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+                <property name="supportedMediaTypes">
+                    <list>
+                        <value>application/json;charset=UTF-8</value>
+                    </list>
+                </property>
+                <property name="objectMapper" ref="objectMapper"/>
+                <property name="prettyPrint" value="true"/>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
+    <!-- 根据路径后缀选择不同视图 -->
+    <bean class="org.springframework.web.servlet.view.ContentNegotiatingViewResolver">
+        <property name="contentNegotiationManager">
+            <bean class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
+                <property name="mediaTypes">
+                    <map>
+                        <entry key="json" value="application/json"/>
+                        <entry key="xml" value="application/xml"/>
+                        <entry key="html" value="text/html"/>
+                    </map>
+                </property>
+                <property name="defaultContentType" value="text/html"/>
+                <!-- 忽略Accept Header-->
+                <property name="ignoreAcceptHeader" value="true"/>
+                <!-- 关闭 ?format=json的支持 -->
+                <property name="favorParameter" value="false"/>
+                <!-- 开启扩展名支持 -->
+                <property name="favorPathExtension" value="true"/>
+            </bean>
+        </property>
+        <property name="viewResolvers">
+            <list>
+                <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+                    <property name="viewClass"
+                              value="org.springframework.web.servlet.view.JstlView"/>
+                    <property name="contentType" value="text/html"/>
+                    <property name="prefix" value="/WEB-INF/${webDir}/page/"/>
+                    <property name="suffix" value=".jsp"/>
+                </bean>
+            </list>
+        </property>
+        <property name="defaultViews">
+            <list>
+                <bean class="org.springframework.web.servlet.view.json.MappingJackson2JsonView">
+                    <property name="objectMapper" ref="objectMapper"/>
+                    <property name="prettyPrint" value="true"/>
+                </bean>
+                <bean class="org.springframework.web.servlet.view.xml.MappingJackson2XmlView"/>
+            </list>
+        </property>
+    </bean>
+
+    <!-- 文件上传 -->
+    <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="defaultEncoding" value="utf-8"/>
+        <property name="maxInMemorySize" value="10240"/>
+        <!-- 最大文件大小，单位字节，-1为不限制大小 默认限制5M-->
+        <property name="maxUploadSize" value="5242880"/>
+    </bean>
+
+    <!-- Hibernate Validator配置-->
+    <bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+        <property name="providerClass" value="org.hibernate.validator.HibernateValidator"/>
+        <property name="validationMessageSource" ref="validationMessageSource"/>
+    </bean>
+
+    <bean id="validationMessageSource"
+          class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+        <property name="basenames">
+            <list>
+                <value>classpath:validator-messages</value>
+                <value>classpath:org/hibernate/validator/ValidationMessages</value>
+            </list>
+        </property>
+        <property name="useCodeAsDefaultMessage" value="false"/>
+        <property name="defaultEncoding" value="UTF-8"/>
+        <property name="cacheSeconds" value="60"/>
+    </bean>
+
+    <!-- 异常视图处理 -->
+    <bean id="exceptionResolver"
+          class="com.icinfo.framework.core.web.handler.GlobalHandlerExceptionResolver">
+        <!-- 设置日志输出级别，不定义则默认不输出警告等错误日志信息 -->
+        <property name="warnLogCategory" value="WARN"></property>
+    </bean>
+
+    <!-- 开启cglib代理切面 -->
+    <!-- 由于 controller 与 其他不在同一上下文，针对controller层上的自定义注解，必须在此配置，使得注解跟controller在同一上下文才能生效 -->
+    <aop:aspectj-autoproxy proxy-target-class="true"/>
+
+</beans>

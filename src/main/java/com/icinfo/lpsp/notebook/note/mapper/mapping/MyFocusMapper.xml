@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.icinfo.lpsp.notebook.note.mapper.MyFocusMapper">
+  <resultMap id="BaseResultMap" type="com.icinfo.lpsp.notebook.note.model.MyFocus">
+    <!--
+      WARNING - @frameworkgenerated
+    -->
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="NMF_USER_ID" jdbcType="VARCHAR" property="userId" />
+    <result column="NMF_CATEGORY_ID" jdbcType="VARCHAR" property="categoryId" />
+    <result column="NMF_ORDER_NUMBER" jdbcType="INTEGER" property="orderNumber" />
+    <result column="NMF_CREATE_TIME" jdbcType="TIMESTAMP" property="createTime" />
+    <result column="NMF_OPERATE_TIME" jdbcType="TIMESTAMP" property="operateTime" />
+  </resultMap>
+</mapper>

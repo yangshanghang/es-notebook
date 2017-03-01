@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.icinfo.lpsp.notebook.note.mapper.CommentMapper" >
+  <resultMap id="BaseResultMap" type="com.icinfo.lpsp.notebook.note.model.Comment" >
+    <!--
+      WARNING - @frameworkgenerated
+    -->
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="NC_USER_ID" property="userId" jdbcType="VARCHAR" />
+    <result column="NC_NOTE_ID" property="noteId" jdbcType="VARCHAR" />
+    <result column="NC_CONTENT" property="content" jdbcType="VARCHAR" />
+    <result column="NC_CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="NC_OPERATE_TIME" property="operateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <!-- 评论DtoResultMap -->
+    <resultMap id="CommentDtoResultMap" type="com.icinfo.lpsp.notebook.note.dto.CommentDto"
+            extends="com.icinfo.lpsp.notebook.note.mapper.CommentMapper.BaseResultMap">
+        <result column="NU_REAL_NAME" jdbcType="VARCHAR" property="publisher"/>
+    </resultMap>
+
+    <!-- 根据笔记id获取其所有评论 -->
+    <select id="selectCommentList" parameterType="java.util.Map" resultMap="CommentDtoResultMap">
+        SELECT
+        NU.NU_REAL_NAME,
+        NC.ID, NC.NC_USER_ID, NC.NC_NOTE_ID, NC.NC_CONTENT, NC.NC_CREATE_TIME, NC.NC_OPERATE_TIME
+        FROM
+        NBOOK_USER NU,NBOOK_COMMENT NC
+        WHERE
+        NU.ID=NC.NC_USER_ID
+        <if test="noteId !=null and noteId != ''">
+            AND NC.NC_NOTE_ID = #{noteId}
+        </if>
+        ORDER BY NC.NC_CREATE_TIME DESC
+    </select>
+</mapper>

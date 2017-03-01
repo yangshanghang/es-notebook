@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+   Copyright© 2003-2016 浙江汇信科技有限公司, All Rights Reserved.
+  -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       ">
+    <!--
+    使用说明：
+    WARNING：本配置适用Redis单机或主从模式
+    1、添加MAVEN依赖
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-redis</artifactId>
+            <version>1.7.1.RELEASE</version>
+        </dependency>
+
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+            <version>2.8.1</version>
+        </dependency>
+    2、导入依赖配置文件 spring-data-redis-single.xml
+    -->
+    <!-- Redis连接池配置 -->
+    <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <property name="maxIdle" value="${spring.redis.pool.maxIdle}"/>
+        <property name="minIdle" value="${spring.redis.pool.minIdle}"/>
+        <property name="testOnBorrow" value="${spring.redis.pool.testOnBorrow}"/>
+        <property name="testWhileIdle" value="true"/>
+    </bean>
+
+    <!-- Redis连接工厂 -->
+    <bean id="jedisConnectionFactory"
+          class="org.springframework.data.redis.connection.jedis.JedisConnectionFactory"
+          p:hostName="${spring.redis.single.host}" p:port="${spring.redis.single.port}"
+          p:password="${spring.redis.single.password}"
+          p:poolConfig-ref="jedisPoolConfig"/>
+
+    <!-- Redis操作模板 -->
+    <bean id="redisTemplate" class="org.springframework.data.redis.core.RedisTemplate">
+        <property name="connectionFactory" ref="jedisConnectionFactory"/>
+    </bean>
+</beans>
